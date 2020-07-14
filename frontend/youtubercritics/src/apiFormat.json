@@ -1,0 +1,152 @@
+{
+"kind": "youtube#searchListResponse",
+"etag": "POgFMV2ZUKcbs09BmmqHszEmwnU",
+"nextPageToken": "CAUQAA",
+"regionCode": "NO",
+"pageInfo": {
+    "totalResults": 1000000,
+    "resultsPerPage": 5
+},
+"items": [
+    {
+    "kind": "youtube#searchResult",
+    "etag": "Hr2nOeF4MCARrcFe0GKFbpVjZIs",
+    "id": {
+        "kind": "youtube#channel",
+        "channelId": "UCVzHhZ37zqc8AWLjYfmzf7g"
+    },
+    "snippet": {
+        "publishedAt": "2014-09-08T20:42:32Z",
+        "channelId": "UCVzHhZ37zqc8AWLjYfmzf7g",
+        "title": "Dog$",
+        "description": "Mithrain Twitch Channel : http://twitch.tv/mithrain Benim Twitchim : https://www.twitch.tv/yigitdogs.",
+        "thumbnails": {
+        "default": {
+            "url": "https://yt3.ggpht.com/-EpaZySiNMwY/AAAAAAAAAAI/AAAAAAAAAAA/j64b1GY5Jqs/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+            "url": "https://yt3.ggpht.com/-EpaZySiNMwY/AAAAAAAAAAI/AAAAAAAAAAA/j64b1GY5Jqs/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+            "url": "https://yt3.ggpht.com/-EpaZySiNMwY/AAAAAAAAAAI/AAAAAAAAAAA/j64b1GY5Jqs/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+        },
+        "channelTitle": "Dog$",
+        "liveBroadcastContent": "upcoming",
+        "publishTime": "2014-09-08T20:42:32Z"
+    }
+    },
+    {
+    "kind": "youtube#searchResult",
+    "etag": "KWn6JfjqjhKB194tDzMdvK7TFY0",
+    "id": {
+        "kind": "youtube#channel",
+        "channelId": "UCXhwiMRxiZ3cWOY7F-MYvmw"
+    },
+    "snippet": {
+        "publishedAt": "2019-07-28T03:13:12Z",
+        "channelId": "UCXhwiMRxiZ3cWOY7F-MYvmw",
+        "title": "Dogs Wiz",
+        "description": "Dogs Wiz is all about fun, informative and interesting facts that will make you wonder, smile, laugh, and let you have a great time. We're currently making videos ...",
+        "thumbnails": {
+        "default": {
+            "url": "https://yt3.ggpht.com/--Aiv5zeBK7g/AAAAAAAAAAI/AAAAAAAAAAA/DsZ3TQenNw8/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+            "url": "https://yt3.ggpht.com/--Aiv5zeBK7g/AAAAAAAAAAI/AAAAAAAAAAA/DsZ3TQenNw8/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+            "url": "https://yt3.ggpht.com/--Aiv5zeBK7g/AAAAAAAAAAI/AAAAAAAAAAA/DsZ3TQenNw8/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+        },
+        "channelTitle": "Dogs Wiz",
+        "liveBroadcastContent": "none",
+        "publishTime": "2019-07-28T03:13:12Z"
+    }
+    },
+    {
+    "kind": "youtube#searchResult",
+    "etag": "Q2y8PvLZ-nqX7VCfQfXNCMlmbeQ",
+    "id": {
+        "kind": "youtube#channel",
+        "channelId": "UCIDU4NKWY9Cw70gpHoxZY_A"
+    },
+    "snippet": {
+        "publishedAt": "2016-04-12T04:57:12Z",
+        "channelId": "UCIDU4NKWY9Cw70gpHoxZY_A",
+        "title": "Dogs Are Awesome",
+        "description": "Dogs Awesome brings you the cutest dog and puppies videos on the internet! If you love animals as much as we do, be sure to stick around on our channel to ...",
+        "thumbnails": {
+        "default": {
+            "url": "https://yt3.ggpht.com/-CC8fuXOSjE4/AAAAAAAAAAI/AAAAAAAAAAA/KgoZSsf7hbE/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+            "url": "https://yt3.ggpht.com/-CC8fuXOSjE4/AAAAAAAAAAI/AAAAAAAAAAA/KgoZSsf7hbE/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+            "url": "https://yt3.ggpht.com/-CC8fuXOSjE4/AAAAAAAAAAI/AAAAAAAAAAA/KgoZSsf7hbE/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+        },
+        "channelTitle": "Dogs Are Awesome",
+        "liveBroadcastContent": "upcoming",
+        "publishTime": "2016-04-12T04:57:12Z"
+    }
+    },
+    {
+    "kind": "youtube#searchResult",
+    "etag": "7_30J5RooIaRCSa5drGJgGeZvII",
+    "id": {
+        "kind": "youtube#channel",
+        "channelId": "UCEiydcRdoD0o1bt1XxB_94A"
+    },
+    "snippet": {
+        "publishedAt": "2019-02-09T16:54:20Z",
+        "channelId": "UCEiydcRdoD0o1bt1XxB_94A",
+        "title": "GG DOGS",
+        "description": "Başta Cane corso olmak üzere diğer tüm köpek ırkları ile ilgili videolar bu kanalda abone olup ailemize katılmayı unutmayın... -EĞİTİM- -BİLGİLENDİRME- ...",
+        "thumbnails": {
+        "default": {
+            "url": "https://yt3.ggpht.com/-3UXArR_Zn1g/AAAAAAAAAAI/AAAAAAAAAAA/bg3N1q1IvlE/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+            "url": "https://yt3.ggpht.com/-3UXArR_Zn1g/AAAAAAAAAAI/AAAAAAAAAAA/bg3N1q1IvlE/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+            "url": "https://yt3.ggpht.com/-3UXArR_Zn1g/AAAAAAAAAAI/AAAAAAAAAAA/bg3N1q1IvlE/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+        },
+        "channelTitle": "GG DOGS",
+        "liveBroadcastContent": "upcoming",
+        "publishTime": "2019-02-09T16:54:20Z"
+    }
+    },
+    {
+    "kind": "youtube#searchResult",
+    "etag": "rwKgee3niauyFMinSX13SkCrCaU",
+    "id": {
+        "kind": "youtube#channel",
+        "channelId": "UCWKsHoNH4__DbLA3j35_FbQ"
+    },
+    "snippet": {
+        "publishedAt": "2019-02-01T15:35:38Z",
+        "channelId": "UCWKsHoNH4__DbLA3j35_FbQ",
+        "title": "Anima Dogs",
+        "description": "Bienvenidos a nuestro canal Anima Dogs, el canal de mascotas de nuestra familia de canales ANIMADOS!! En él encontrarás a nuestra perrita DASHA   la ...",
+        "thumbnails": {
+        "default": {
+            "url": "https://yt3.ggpht.com/-WBXKufxiXZ4/AAAAAAAAAAI/AAAAAAAAAAA/zEcGloznhpg/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+            "url": "https://yt3.ggpht.com/-WBXKufxiXZ4/AAAAAAAAAAI/AAAAAAAAAAA/zEcGloznhpg/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+            "url": "https://yt3.ggpht.com/-WBXKufxiXZ4/AAAAAAAAAAI/AAAAAAAAAAA/zEcGloznhpg/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+        },
+        "channelTitle": "Anima Dogs",
+        "liveBroadcastContent": "upcoming",
+        "publishTime": "2019-02-01T15:35:38Z"
+    }
+    }
+]
+}
