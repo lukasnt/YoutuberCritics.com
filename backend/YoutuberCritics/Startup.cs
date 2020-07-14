@@ -27,7 +27,7 @@ namespace YoutuberCritics
         {
             
             services.AddDbContext<YoutuberCriticsContext>(options => {
-                options.UseSqlServer(Configuration.GetConnectionString("Default"));
+                options.UseSqlServer(Configuration.GetConnectionString("Azure"));
             });
 
 
