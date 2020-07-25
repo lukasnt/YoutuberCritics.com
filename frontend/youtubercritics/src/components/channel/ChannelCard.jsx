@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Card, CardMedia, CardActionArea, Typography, CardHeader, CardContent, CardActions } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
+import { frontendDomain } from "../../App";
 
 export default function ChannelCard( {channel} ) {
     const [redirect] = useState(null);
 
     function handleClick(event) {
         
-        window.location.replace("http://localhost:3000/channel/user?pathName=" + channel.youtubePath);
+        window.location.replace(frontendDomain + "/channel/user?pathName=" + channel.youtubePath);
     }
 
     return (

@@ -53,6 +53,7 @@ function App() {
 }
 
 const backendDomain = "https://youtubercritics.azurewebsites.net";
+const frontendDomain = "https://youtubercritics.com";
 function Home() {
   const[channels, setChannels] = useState([]);
   const[sent, setSent] = useState(false);
@@ -73,4 +74,4 @@ function Home() {
 }
 
 export default App;
-export { backendDomain };
+export { backendDomain, frontendDomain };

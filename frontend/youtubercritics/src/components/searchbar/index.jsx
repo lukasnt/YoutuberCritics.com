@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase'
+import { frontendDomain } from "../../App";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -71,7 +72,7 @@ export default function SearchBar() {
     var searchInput = document.getElementById("searchInput");
     if (event.key === "Enter") {
         console.log("Keyword: " + searchInput.value);
-        window.location.replace("http://localhost:3000/search?keyword=" + searchInput.value);
+        window.location.replace(frontendDomain + "/search?keyword=" + searchInput.value);
     }
    }
 

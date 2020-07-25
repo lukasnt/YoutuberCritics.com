@@ -7,11 +7,12 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import "./style.css";
 import { Link } from "react-router-dom";
+import { frontendDomain } from "../../App";
 
 export default function Navbar()
 {
     function clickHome(event){
-        window.location.replace("http://localhost:3000/");
+        window.location.replace(frontendDomain);
     }
 
     return (
