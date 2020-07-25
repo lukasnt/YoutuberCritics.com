@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Paper, Tabs, Tab, MenuItem, Select, InputLabel, FormControl, FormHelperText, Grid, Container, Typography, CircularProgress } from "@material-ui/core";
+import { Paper, Tabs, Tab, MenuItem, Select, FormControl, Grid, Container, Typography, CircularProgress } from "@material-ui/core";
 import ChannelCard from "../channel/ChannelCard";
-import Review from "../review/Review";
 import axios from "axios";
 import qs from 'qs';
 import { backendDomain } from "../../App";

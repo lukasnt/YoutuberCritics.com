@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,7 +6,7 @@ import SearchBar from "../searchbar";
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import "./style.css";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Navbar()
 {

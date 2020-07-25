@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Card, CardMedia, CardActionArea, Typography, CardHeader, CardContent, CardActions } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
-import { Link, Redirect } from "react-router-dom";
 
 export default function ChannelCard( {channel} ) {
-    const [redirect, setRedirect] = useState(null);
+    const [redirect] = useState(null);
 
     function handleClick(event) {
         

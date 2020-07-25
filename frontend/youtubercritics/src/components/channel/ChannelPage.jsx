@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import qs from "qs";
-import { AppBar, Container, Grid, Paper, Typography, Card, Button, TextField } from "@material-ui/core";
-import Review from "../review/Review";
+import { AppBar, Container, Grid, Paper, Typography, Button, TextField } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating"
 import PersonIcon from '@material-ui/icons/Person';
 

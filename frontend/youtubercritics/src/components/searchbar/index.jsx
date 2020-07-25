@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { TextField } from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography'
 import InputBase from '@material-ui/core/InputBase'
-import { Route, Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -69,13 +66,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SearchBar() {
   const classes = useStyles();
-  const[redirect, setRedirect] = useState(null);
-  const[keyword, setKeyword] = useState("");
+  const[redirect] = useState(null);
   function handleKeyPress(event) {
     var searchInput = document.getElementById("searchInput");
     if (event.key === "Enter") {
         console.log("Keyword: " + searchInput.value);
-        setKeyword(document.getElementById("searchInput").value);
         window.location.replace("http://localhost:3000/search?keyword=" + searchInput.value);
     }
    }

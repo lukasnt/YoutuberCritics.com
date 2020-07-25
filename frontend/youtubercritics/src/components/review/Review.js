@@ -20,7 +20,7 @@ export default function Review( {review} ) {
                 title={
                     <div style={{display: "flex", direction: "row"}}>
                         <PersonIcon style={{position: "relative", top: "5px"}}/>
-                        <Typography> <b> {review.user.name}</b> Reviewed <b><img width="24px" height="24px" src={review.channel.imageURL} style={{position: "relative", top: "5px"}}/>{review.channel.title}</b> </Typography>
+                        <Typography> <b> {review.user.name}</b> Reviewed <b><img width="24px" height="24px" src={review.channel.imageURL} alt={review.channel.title} style={{position: "relative", top: "5px"}}/>{review.channel.title}</b> </Typography>
                     </div>
                 }
                 action={

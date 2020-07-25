@@ -2,7 +2,6 @@ import React from "react";
 import { Typography, Grid } from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
 import ChannelCard from "../channel/ChannelCard";
-import Navbar from "../navbar";
 
 export default function TrendingChannels( {channels} ) {
     var channelList = channels.map(c => 

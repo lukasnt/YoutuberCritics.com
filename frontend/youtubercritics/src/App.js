@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import Navbar from "./components/navbar";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container'
-import Reviews from './components/reviews/Reviews';
+import Container from '@material-ui/core/Container';
 import TrendingChannels from './components/trendingchannels/TrendingChannels';
 import Grid from "@material-ui/core/Grid";
 import ChannelPage from './components/channel/ChannelPage';
