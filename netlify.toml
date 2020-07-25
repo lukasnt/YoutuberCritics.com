@@ -12,4 +12,4 @@
   publish = "build/"
 
   # Default build command.
-  command = "npm install & npm run build"
+  command = "CI='' npm install & npm run build"
