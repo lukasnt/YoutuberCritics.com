@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Reviews from "./Reviews";
+import { backendDomain } from "../../App";
 
 export default function RecentReviews( )
 {
@@ -8,7 +9,7 @@ export default function RecentReviews( )
     const [reviews, setReviews] = useState([]);
 
     if (!sent) {
-        axios.get("https://localhost:5001/api/reviews/recent")
+        axios.get(backendDomain + "/api/reviews/recent")
             .then(res => setReviews(res.data));
         setSent(true);
     }

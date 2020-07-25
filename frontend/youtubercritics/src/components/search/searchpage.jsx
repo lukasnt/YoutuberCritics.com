@@ -4,6 +4,7 @@ import ChannelCard from "../channel/ChannelCard";
 import Review from "../review/Review";
 import axios from "axios";
 import qs from 'qs';
+import { backendDomain } from "../../App";
 
 export default function SearchPage( { keyword } ) {
     const [value, setValue] = useState(0)
@@ -26,12 +27,12 @@ export default function SearchPage( { keyword } ) {
 
     if (!sent) {
         let dbResult = [];
-        axios.get("https://localhost:5001/api/search?keyword=" + term + "&fullScan=false&scrape=false")
+        axios.get(backendDomain + "/api/search?keyword=" + term + "&fullScan=false&scrape=false")
             .then(res => {
                 dbResult = res.data;
                 setChannels(res.data.splice(0, 27));
             });
-        axios.get("https://localhost:5001/api/search?keyword=" + term + "&fullScan=false&scrape=true")
+        axios.get(backendDomain + "/api/search?keyword=" + term + "&fullScan=false&scrape=true")
             .then(res => {
                 let result = res.data.concat(dbResult);
                 result = result.slice(0, 27);

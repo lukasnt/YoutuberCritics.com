@@ -10,6 +10,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Reviews from "../reviews/Reviews";
+import { backendDomain } from "../../App";
 
 export default function ChannelPage( {youtubePath} ) {
     const [channel, setChannel] = useState(
@@ -28,10 +29,10 @@ export default function ChannelPage( {youtubePath} ) {
     let path = qs.parse(youtubePath).pathName;
 
     if (!sent) {
-        axios.get("https://localhost:5001/api/channels/user?pathName=" + path)
+        axios.get(backendDomain + "/api/channels/user?pathName=" + path)
           .then(res => setChannel(res.data));
         
-        axios.get("https://localhost:5001/api/reviews?pathName=" + path)
+        axios.get(backendDomain + "/api/reviews?pathName=" + path)
         .then(res => setReviews(res.data));
         
         setSent(true);
@@ -103,7 +104,7 @@ function PostReview( {channel} ) {
         let reviewTitle = document.getElementById("reviewTitle").value;
         let reviewText = document.getElementById("reviewText").value;
 
-        axios.post("https://localhost:5001/api/channels/" + channel.channelID + "/reviews", 
+        axios.post(backendDomain + "/api/channels/" + channel.channelID + "/reviews", 
         {
             channelID: channel.channelID,
             userID: 1,

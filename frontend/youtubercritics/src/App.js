@@ -53,11 +53,13 @@ function App() {
     );
 }
 
+const backendDomain = "https://youtubercritics.azurewebsites.net";
 function Home() {
   const[channels, setChannels] = useState([]);
   const[sent, setSent] = useState(false);
+
   if (!sent){
-    axios.get("https://localhost:5001/api/channels?maxItems=8")
+    axios.get(backendDomain + "/api/channels?maxItems=8")
       .then(res => setChannels(res.data));
     setSent(true);
   }
@@ -72,3 +74,4 @@ function Home() {
 }
 
 export default App;
+export { backendDomain };
