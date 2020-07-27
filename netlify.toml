@@ -12,7 +12,7 @@
   publish = "build/"
 
   # Default build command.
-  command = "CI='' npm install & npm run build"
+  command = "npm run build"
 
 # The following redirect is intended for use with most SPAs that handle
 # routing internally.
