@@ -1,0 +1,4 @@
+.MuiCardHeader-root {
+    flex-wrap: wrap-reverse;
+    overflow-wrap: break-word;
+}

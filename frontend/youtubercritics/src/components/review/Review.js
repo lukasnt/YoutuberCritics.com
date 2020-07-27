@@ -5,16 +5,19 @@ import Rating from "@material-ui/lab/Rating";
 import PersonIcon from '@material-ui/icons/Person';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+import "./style.css";
 
-export default function Review( {review} ) {
+export default function Review( {review, maxWidth} ) {
     return (
         <Card style={{
-            width: "585px",
+            minWidth: "260px",
+            maxWidth: maxWidth,
+            flex: 0,
         }}>
             <CardHeader
                 avatar = {
                     <div>
-                        <Rating name="rating" style={{fontSize: "31px"}} value={review.rating} size="large" readOnly/>
+                        <Rating name="rating" style={{fontSize: "30px"}} value={review.rating} size="large" readOnly/>
                     </div>
                 }
                 title={
@@ -23,11 +26,12 @@ export default function Review( {review} ) {
                         <Typography> <b> {review.user.name}</b> Reviewed <b><img width="24px" height="24px" src={review.channel.imageURL} alt={review.channel.title} style={{position: "relative", top: "5px"}}/>{review.channel.title}</b> </Typography>
                     </div>
                 }
+                /*
                 action={
                     <Typography variant="subtitle2"> {review.datePosted} </Typography>
-                }
+                }*/
             />
-            <CardContent style={{paddingTop: "0px", paddingBottom: "0px"}}>
+            <CardContent style={{paddingTop: "0px", paddingBottom: "0px", overflowWrap: "anywhere"}}>
                 <Typography variant="h5"> {review.title != null ? review.title : ""} </Typography>
                 <Typography> {review.text} </Typography>
             </CardContent>

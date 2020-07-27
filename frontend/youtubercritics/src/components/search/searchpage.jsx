@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Paper, Tabs, Tab, MenuItem, Select, FormControl, Grid, Container, Typography, CircularProgress } from "@material-ui/core";
+import { Paper, Tabs, Tab, MenuItem, Select, FormControl, Grid, Container, Typography, CircularProgress, useMediaQuery } from "@material-ui/core";
 import ChannelCard from "../channel/ChannelCard";
 import axios from "axios";
 import qs from 'qs';
 import { backendDomain } from "../../App";
 
 export default function SearchPage( { keyword } ) {
+    const mobile = useMediaQuery("(max-width: 600px)")
+    
     const [value, setValue] = useState(0)
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -52,8 +54,8 @@ export default function SearchPage( { keyword } ) {
         <Container style={{
             marginTop: "10px"
         }}>
-            <Grid container spacing={3}>
-                <Grid item xs={9}>
+            <Grid container spacing={3} wrap={mobile ? "wrap-reverse" : "wrap"}>
+                <Grid item xs={mobile ? 12 : 9}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Paper style={{
@@ -87,8 +89,8 @@ export default function SearchPage( { keyword } ) {
                             {channelItems}
                         </Grid>
                 </Grid>
-                <Grid item xs={3}> 
-                        <Paper style={{height: "500px"}}>
+                <Grid item xs={mobile ? 12 : 3}> 
+                        <Paper style={mobile ? {height: "100px"} : {height: "500px"}}>
                             <Typography> 
                                 Ads
                             </Typography>

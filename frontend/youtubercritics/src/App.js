@@ -52,8 +52,8 @@ function App() {
     );
 }
 
-const backendDomain = "https://youtubercritics.azurewebsites.net";
-const frontendDomain = "https://youtubercritics.com";
+const backendDomain = "https://youtubercritics.azurewebsites.net"; // "https://localhost:5001"
+const frontendDomain = "https://youtubercritics.com"; // "https://youtubercritics.com"; // "https://localhost:3000";
 function Home() {
   const[channels, setChannels] = useState([]);
   const[sent, setSent] = useState(false);

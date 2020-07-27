@@ -15,6 +15,6 @@ export default function RecentReviews( )
     }
 
     return (
-        <Reviews reviews={reviews} />
+        <Reviews reviews={reviews} reviewMaxWidth={"585px"} />
     );
 }
