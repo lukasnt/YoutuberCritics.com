@@ -6,6 +6,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import "./style.css";
+import moment from "moment";
 
 export default function Review( {review, maxWidth} ) {
     return (
@@ -23,7 +24,15 @@ export default function Review( {review, maxWidth} ) {
                 title={
                     <div style={{display: "flex", direction: "row"}}>
                         <PersonIcon style={{position: "relative", top: "5px"}}/>
-                        <Typography> <b> {review.user.name}</b> Reviewed <b><img width="24px" height="24px" src={review.channel.imageURL} alt={review.channel.title} style={{position: "relative", top: "5px"}}/>{review.channel.title}</b> </Typography>
+                        <Typography> 
+                            <b>{review.user.name}&nbsp;</b>
+                            Reviewed&nbsp;
+                            <b>
+                                <img width="24px" height="24px" src={review.channel.imageURL} alt={review.channel.title} style={{position: "relative", top: "5px"}}/>
+                                {review.channel.title}
+                            </b>&nbsp;&nbsp;
+                            {moment(review.datePosted).fromNow()}
+                        </Typography>
                     </div>
                 }
                 /*
