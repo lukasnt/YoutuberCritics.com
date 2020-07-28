@@ -17,7 +17,7 @@ namespace YoutuberCritics
 
 
         [HttpGet]
-        public ActionResult SearchChannels([FromQuery] string keyword, [FromQuery] bool fullScan, [FromQuery] bool scrape)
+        public ActionResult SearchChannels([FromQuery] string keyword, [FromQuery] bool fullScan = false, [FromQuery] bool scrape = false, [FromQuery] int order = 0, [FromQuery] int page = 1, [FromQuery] int pageSize = 15)
         {
             if (scrape)
             {
@@ -25,8 +25,14 @@ namespace YoutuberCritics
             }
             else 
             {
-                return Ok(_search.ChannelDBSearch(keyword, fullScan));
+                return Ok(_search.ChannelDBSearch(keyword, order, page, pageSize));
             }
+        }
+
+        [HttpGet("reviews")]
+        public ActionResult SearchReviews([FromQuery] string keyword, [FromQuery] int order = 0, [FromQuery] int page = 1, [FromQuery] int pageSize = 15)
+        {
+            return Ok(_search.ReviewDBSearch(keyword, order, page, pageSize));
         }
     }
 }

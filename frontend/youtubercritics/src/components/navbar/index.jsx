@@ -14,8 +14,16 @@ export default function Navbar()
 {
     const pad = useMediaQuery("(max-width: 1300px)")
 
-    function clickHome(event){
+    function clickHome(event) {
         window.location.replace(frontendDomain);
+    }
+    
+    function clickChannels(event) {
+        window.location.replace(frontendDomain + "/search?keyword=&tab=0");
+    }
+    
+    function clickReviews(event) {
+        window.location.replace(frontendDomain + "/search?keyword=&tab=1");
     }
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -41,15 +49,31 @@ export default function Navbar()
                                 <MenuIcon style={{fontSize: "36px"}}/>
                             </IconButton>
                             <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleClose}>
-                                <MenuItem onClick={handleClose}> <Typography variant="h6"> Channels </Typography> </MenuItem>
-                                <MenuItem onClick={handleClose}> <Typography variant="h6"> Reviews </Typography> </MenuItem>
+                                <MenuItem onClick={handleClose}> 
+                                    <Link color="secondary" className="text-link"> 
+                                        <Typography onClick={clickChannels} variant="h6"> Channels </Typography>
+                                    </Link> 
+                                </MenuItem>
+                                <MenuItem onClick={handleClose}> 
+                                    <Link color="secondary" className="text-link"> 
+                                        <Typography onClick={clickReviews} variant="h6"> Reviews </Typography> 
+                                    </Link> 
+                                </MenuItem>
                                 <MenuItem onClick={handleClose}> <Button variant="contained" color="secondary"> Log in </Button> </MenuItem>
                                 <MenuItem onClick={handleClose}> <Button variant="contained" color="secondary"> Sign up </Button> </MenuItem>
                             </Menu>
                         </div>
                         : <Grid container justify="flex-end" spacing={3}>
-                                <Grid item> <Typography variant="h6"> Channels </Typography>  </Grid>
-                                <Grid item> <Typography variant="h6"> Reviews </Typography>  </Grid>
+                                <Grid item> 
+                                    <Link color="primary" className="text-link"> 
+                                        <Typography onClick={clickChannels} variant="h6"> Channels </Typography>
+                                    </Link> 
+                                </Grid>
+                                <Grid item> 
+                                    <Link color="primary" className="text-link"> 
+                                        <Typography onClick={clickReviews} variant="h6"> Reviews </Typography> 
+                                    </Link> 
+                                </Grid>
                                 <Grid item> <Button variant="contained" color="secondary"> Log in </Button> </Grid>
                                 <Grid item> <Button variant="contained" color="secondary"> Sign up </Button> </Grid>
                         </Grid>

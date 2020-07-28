@@ -43,7 +43,7 @@ function App() {
         <Navbar />
             <Switch>
               <Route path="/channel" component={(props) => <ChannelPage youtubePath={props.location.search.slice(1)} />} /> 
-              <Route path="/search" component={(props) => <SearchPage keyword={props.location.search.slice(1)} />} />
+              <Route path="/search" component={(props) => <SearchPage params={props.location.search.slice(1)} />} />
               <Route path="/"> <Home /> </Route>
             </Switch>
         </Router>
@@ -52,8 +52,8 @@ function App() {
     );
 }
 
-const backendDomain = "https://youtubercritics.azurewebsites.net"; // "https://localhost:5001"
-const frontendDomain = "https://youtubercritics.com"; // "https://youtubercritics.com"; // "https://localhost:3000";
+const backendDomain = "https://youtubercritics.azurewebsites.net"; // "https://youtubercritics.azurewebsites.net"; // "https://localhost:5001";
+const frontendDomain = "https://youtubercritics.com"; // "https://youtubercritics.com"; // "http://localhost:3000";
 function Home() {
   const[channels, setChannels] = useState([]);
   const[sent, setSent] = useState(false);

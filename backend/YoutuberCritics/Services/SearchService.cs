@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
+using PagedList;
 using YoutuberCritics.Data;
 using YoutuberCritics.Models;
 
@@ -169,18 +171,82 @@ namespace YoutuberCritics.Services
             return data;
         }
 
-        public IEnumerable<Channel> ChannelDBSearch(string keyword, bool fullScan)
+        private Expression<Func<Channel, Object>> GetChannelOrderAttribute(int orderEnum)
         {
-            int maxItems = 50;
-            if (fullScan) maxItems = 1000;
+            switch (orderEnum)
+            {
+                case 0:
+                    return (channel => channel.Subscribers);
+                case 1:
+                    return (channel => channel.Title);
+                case 2:
+                    return (channel => channel.Subscribers);
+                case 3:
+                    return (channel => channel.YoutubePath);
+                case 4:
+                    return (channel => channel.ChannelID);
+                default:
+                    return (review => review.Subscribers);
+            }
+        }
 
-            var result = _context.Channels
-                .AsNoTracking()
-                .Where(channel => channel.Title.Contains(keyword) || channel.Description.Contains(keyword))
-                .Take(maxItems)
-                .OrderByDescending(channel => channel.Subscribers);
+        public IEnumerable<Channel> ChannelDBSearch(string keyword, int orderEnum, int page, int pageSize)
+        {
+            int maxItems = 1000;
+            var orderExpression = GetChannelOrderAttribute(orderEnum);
+
+            var result = _context.Channels.AsNoTracking();
+            if (keyword != "" && keyword != null)
+            {
+                result = result.Where(channel => channel.Title.Contains(keyword) || channel.Description.Contains(keyword));
+            }
+            result = result.Take(maxItems)
+                .OrderByDescending(orderExpression);
             
-            return result;
+            return result.ToPagedList(page, pageSize);
+        }
+
+        private Expression<Func<Review, Object>> GetReviewOrderAttribute(int orderEnum)
+        {
+            switch (orderEnum)
+            {
+                case 0:
+                    return (review => review.DatePosted);
+                case 1:
+                    return (review => review.Title);
+                case 2:
+                    return (review => review.Rating);
+                case 3:
+                    return (review => review.User.Name);
+                case 4:
+                    return (review => review.Channel.Title);
+                case 5:
+                    return (review => review.ReviewID);
+                default:
+                    return (review => review.DatePosted);
+            }
+        }
+
+        public IEnumerable<Review> ReviewDBSearch(string keyword, int orderEnum, int page, int pageSize)
+        {
+            var maxItems = 1000;
+            var orderExpression = GetReviewOrderAttribute(orderEnum);
+
+            var result = _context.Reviews.AsNoTracking();
+            if (keyword != "" && keyword != null)
+            {
+                result = result
+                .Where(review => review.Title.Contains(keyword)     ||
+                                 review.Text.Contains(keyword)      || 
+                                 review.User.Name.Contains(keyword) || 
+                                 review.Channel.Title.Contains(keyword));
+            }
+            result = result.Take(maxItems)
+                .Include(review => review.Channel)
+                .Include(review => review.User)
+                .OrderByDescending(orderExpression);
+            
+            return result.ToPagedList(page, pageSize);
         }
     }
 }

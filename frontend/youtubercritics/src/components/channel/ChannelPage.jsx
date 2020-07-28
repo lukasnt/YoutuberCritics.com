@@ -9,7 +9,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Reviews from "../reviews/Reviews";
-import { backendDomain } from "../../App";
+import { backendDomain, frontendDomain } from "../../App";
 
 export default function ChannelPage( {youtubePath} ) {
     const mobile = useMediaQuery("(max-width: 600px)")
@@ -118,7 +118,7 @@ function PostReview( {channel} ) {
             reviewText = "";
             reviewTitle = "";
             console.log("POSTED", channel.channelID, rating, reviewText);
-            window.location.replace("http://localhost:3000/channel/user?pathName=" + channel.youtubePath);
+            window.location.replace(frontendDomain + "/channel/user?pathName=" + channel.youtubePath);
         });
     }
 

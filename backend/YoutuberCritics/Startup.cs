@@ -1,11 +1,9 @@
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Net.Http.Headers;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using YoutuberCritics.Data;
@@ -36,15 +34,16 @@ namespace YoutuberCritics
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+                        builder.WithOrigins("http://localhost:3000", "https://youtubercritics.com").AllowAnyHeader().AllowAnyMethod();
                     });
             });
 
-
+            /*
             var options = new ChromeOptions();
             options.AddArguments("headless", "--lang=en");
             services.AddSingleton<RemoteWebDriver, ChromeDriver>(provider => new ChromeDriver(options));
             services.AddSingleton<RemoteWebDriver, ChromeDriver>(provider => new ChromeDriver(options));
+            */
 
             services.AddTransient<SearchService>();
             services.AddSingleton<CacheService>();

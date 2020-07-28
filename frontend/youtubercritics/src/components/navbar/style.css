@@ -9,6 +9,11 @@
     float: left;
 }
 
+.text-link {
+    color: inherit;
+    text-decoration: inherit;
+}
+
 .menu {
     display: "flex";
     justify-content: center;
