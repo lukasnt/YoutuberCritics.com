@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import "./style.css";
 import { Link } from "react-router-dom";
-import { frontendDomain } from "../../App";
+import { redirect } from "../../App";
 import MenuIcon from '@material-ui/icons/Menu';
 
 export default function Navbar()
@@ -15,15 +15,15 @@ export default function Navbar()
     const pad = useMediaQuery("(max-width: 1300px)")
 
     function clickHome(event) {
-        window.location.replace(frontendDomain);
+        redirect("");
     }
     
     function clickChannels(event) {
-        window.location.replace(frontendDomain + "/search?keyword=&tab=0");
+        redirect("/search?keyword=&tab=0");
     }
     
     function clickReviews(event) {
-        window.location.replace(frontendDomain + "/search?keyword=&tab=1");
+        redirect("/search?keyword=&tab=1");
     }
 
     const [anchorEl, setAnchorEl] = useState(null);

@@ -4,51 +4,54 @@ import ChannelCard from "../channel/ChannelCard";
 import Pagination from '@material-ui/lab/Pagination';
 import axios from "axios";
 import qs from 'qs';
-import { backendDomain } from "../../App";
+import { backendDomain, redirect } from "../../App";
 import Reviews from "../reviews/Reviews";
 
 export default function SearchPage( { params } ) {
     const mobile = useMediaQuery("(max-width: 600px)")
     
+    let parsedParams = qs.parse(params);
+    let term = parsedParams.keyword;
+    let initTab = parseInt(parsedParams.tab);
+    let initChannelOrder = parseInt(parsedParams.channelOrder);
+    let initReviewOrder = parseInt(parsedParams.reviewOrder);
+    let initChannelPage = parseInt(parsedParams.channelPage);
+    let initReviewPage = parseInt(parsedParams.reviewPage);
+    const initLoad = (
+        <Grid item xs={12} size="large" style={{display: "flex", justifyContent: "center"}}>
+            <CircularProgress style={{
+                width: "150px",
+                height: "150px",
+            }} color="secondary"/> 
+        </Grid>);
+
     const pageSize = 15;
     const [sent, setSent] = useState(false);
     const [channels, setChannels] = useState([]);
     const [reviews, setReviews] = useState([]);
-
-    const initLoad = (
-    <Grid item xs={12} size="large" style={{display: "flex", justifyContent: "center"}}>
-        <CircularProgress style={{
-            width: "150px",
-            height: "150px",
-        }} color="secondary"/> 
-    </Grid>);
-
     const [loading, setLoading] = useState(initLoad);
+    const [tab] = useState(!isNaN(initTab) ? initTab : 0);
+    const [reviewOrder, setReviewOrder] = useState(!isNaN(initReviewOrder) ? initReviewOrder : 0);
+    const [channelOrder, setChannelOrder] = useState(!isNaN(initChannelOrder) ? initChannelOrder : 0);
+    const [channelPage, setChannelPage] = useState(!isNaN(initChannelPage) ? initChannelPage : 1);
+    const [reviewPage, setReviewPage] = useState(!isNaN(initReviewPage) ? initReviewPage : 1);
 
-    let term = qs.parse(params).keyword;
-    let initTab = parseInt(qs.parse(params).tab);
-
-    console.log(initTab);
-    console.log(isNaN(initTab))
 
     if (!sent) {
-        axios.get(backendDomain + "/api/search?keyword=" + term)
-            .then(res => {
-                setChannels(res.data.splice(0, pageSize));
-                setLoading(null);
-            });
-        /*
-        axios.get(backendDomain + "/api/search?keyword=" + term + "&fullScan=false&scrape=true")
-            .then(res => {
-                let result = res.data.concat(dbResult);
-                result = result.slice(0, 27);
-                setChannels(result);
-                setLoading(null);
-            });
-        */
-        axios.get(backendDomain + "/api/search/reviews?keyword=" + term)
-            .then(res => setReviews(res.data.splice(0, pageSize)))
-        setSent(true);
+        if (tab === 0) {
+            axios.get(backendDomain + "/api/search?keyword=" + term + "&order=" + channelOrder + "&page=" + channelPage + "&pageSize=" + pageSize)
+                .then(res => {
+                    setChannels(res.data.splice(0, pageSize));
+                    setLoading(null);
+                });
+        } else if (tab === 1) {
+            axios.get(backendDomain + "/api/search/reviews?keyword=" + term + "&order=" + reviewOrder + "&page=" + reviewPage + "&pageSize=" + pageSize)
+                .then(res => {
+                    setReviews(res.data.splice(0, pageSize));
+                    setLoading(null);
+                });
+            }
+        setSent(true);    
     }
 
     let channelItems = channels.map(channel => (
@@ -60,59 +63,41 @@ export default function SearchPage( { params } ) {
     let reviewItems = <Reviews reviews={reviews} />;
     
     
-    const [tab, setTab] = useState(!isNaN(initTab) ? initTab : 0);
+    
     const handleTabChange = (event, newValue) => {
-        setTab(newValue);
+        //setTab(newValue);
+        redirect("/search?keyword=" + term + "&tab=" + newValue + "&reviewOrder=" + reviewOrder + "&reviewPage=" + reviewPage + "&channelOrder=" + channelOrder + "&channelPage=" + channelPage)
     };
     
-    const [reviewOrder, setReviewOrder] = useState(0);
-    const [channelOrder, setChannelOrder] = useState(0);
     const handleReviewOrderChange = (event) => {
         setReviewOrder(event.target.value);
         setLoading(initLoad);
         setReviews([]);
-
-        axios.get(backendDomain + "/api/search/reviews?keyword=" + term + "&order=" + event.target.value + "&page=" + reviewPage + "&pageSize=" + pageSize)
-            .then(res => {
-                setReviews(res.data.splice(0, pageSize));
-                setLoading(null);
-            });
+        
+        redirect("/search?keyword=" + term + "&tab=" + tab + "&reviewOrder=" + event.target.value + "&reviewPage=" + reviewPage + "&channelOrder=" + channelOrder + "&channelPage=" + channelPage);
     };
     const handleChannelOrderChange = (event) => {
         setChannelOrder(event.target.value);
         setLoading(initLoad);
         setChannels([]);
         
-        axios.get(backendDomain + "/api/search?keyword=" + term + "&order=" + event.target.value + "&page=" + channelPage + "&pageSize=" + pageSize)
-            .then(res => {
-                setChannels(res.data.splice(0, pageSize));
-                setLoading(null);
-            });
+        redirect("/search?keyword=" + term + "&tab=" + tab + "&reviewOrder=" + reviewOrder + "&reviewPage=" + reviewPage + "&channelOrder=" + event.target.value + "&channelPage=" + channelPage);
     };
 
-    const [channelPage, setChannelPage] = useState(1);
     const handleChannelPageChange = (event, value) => {
         setChannelPage(value);
         setLoading(initLoad);
         setChannels([]);
 
-        axios.get(backendDomain + "/api/search?keyword=" + term + "&order=" + channelOrder + "&page=" + value + "&pageSize=" + pageSize)
-            .then(res => {
-                setChannels(res.data.splice(0, pageSize));
-                setLoading(null);
-            });
+        redirect("/search?keyword=" + term + "&tab=" + tab + "&reviewOrder=" + reviewOrder + "&reviewPage=" + reviewPage + "&channelOrder=" + channelOrder + "&channelPage=" + value);
     };
-    const [reviewPage, setReviewPage] = useState(1);
     const handleReviewPageChange = (event, value) => {
         setReviewPage(value);
-        setLoading(initLoad);
-        setReviews([]);
+        //setLoading(initLoad);
+        //setReviews([]);
+        console.log(value);
 
-        axios.get(backendDomain + "/api/search/reviews?keyword=" + term + "&order=" + reviewOrder + "&page=" + value + "&pageSize=" + pageSize)
-            .then(res => {
-                setReviews(res.data.splice(0, pageSize));
-                setLoading(null);
-            });
+        redirect("/search?keyword=" + term + "&tab=" + tab + "&reviewOrder=" + reviewOrder + "&reviewPage=" + value + "&channelOrder=" + channelOrder + "&channelPage=" + channelPage);
     };
 
     return (

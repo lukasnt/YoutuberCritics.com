@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardMedia, CardActionArea, Typography, CardHeader, CardContent, CardActions } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
-import { frontendDomain } from "../../App";
+import { redirect } from "../../App";
 
 export default function ChannelCard( {channel} ) {
-    const [redirect] = useState(null);
 
     function handleClick(event) {
-        
-        window.location.replace(frontendDomain + "/channel/user?pathName=" + channel.youtubePath);
+        redirect("/channel/user?pathName=" + channel.youtubePath);
     }
 
     return (
@@ -44,7 +42,6 @@ export default function ChannelCard( {channel} ) {
                 </CardActions>
             </CardActions>
             </CardActionArea>
-            {redirect}
         </Card>
     );
 }

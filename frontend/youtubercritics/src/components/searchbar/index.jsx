@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase'
-import { frontendDomain } from "../../App";
+import { redirect } from "../../App";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -67,12 +67,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SearchBar() {
   const classes = useStyles();
-  const[redirect] = useState(null);
   function handleKeyPress(event) {
     var searchInput = document.getElementById("searchInput");
     if (event.key === "Enter") {
         console.log("Keyword: " + searchInput.value);
-        window.location.replace(frontendDomain + "/search?keyword=" + searchInput.value);
+        redirect("/search?keyword=" + searchInput.value);
     }
    }
 
@@ -91,7 +90,6 @@ export default function SearchBar() {
             inputProps={{ 'aria-label': 'search' }}
             onKeyPress={handleKeyPress}
         />
-        {redirect}
     </div>
     );
 }
