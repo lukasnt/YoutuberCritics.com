@@ -11,7 +11,10 @@ namespace YoutuberCritics.Services
         private IEnumerable<Channel> _channels;
         private IEnumerable<Review> _reviews;
 
-        public CacheService() {}
+        public CacheService() {
+            _channels = new List<Channel>();
+            _reviews = new List<Review>();
+        }
 
         public IEnumerable<Channel> GetChannels()
         {

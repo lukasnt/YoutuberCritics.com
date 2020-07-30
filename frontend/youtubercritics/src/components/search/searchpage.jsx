@@ -8,7 +8,7 @@ import { backendDomain, redirect } from "../../App";
 import Reviews from "../reviews/Reviews";
 
 export default function SearchPage( { params } ) {
-    const mobile = useMediaQuery("(max-width: 600px)")
+    const mobile = useMediaQuery("(max-width: 600px)");
     
     let parsedParams = qs.parse(params);
     let term = parsedParams.keyword;
@@ -95,10 +95,11 @@ export default function SearchPage( { params } ) {
         setReviewPage(value);
         //setLoading(initLoad);
         //setReviews([]);
-        console.log(value);
 
         redirect("/search?keyword=" + term + "&tab=" + tab + "&reviewOrder=" + reviewOrder + "&reviewPage=" + value + "&channelOrder=" + channelOrder + "&channelPage=" + channelPage);
     };
+
+    document.title = (term ? term : (tab === 0 ? "Channels" : "Reviews")) + " - YoutuberCritics";
 
     return (
         <Container style={{
@@ -133,7 +134,7 @@ export default function SearchPage( { params } ) {
                                             <MenuItem value={0}> Subscribers </MenuItem>
                                             <MenuItem value={1}> Name </MenuItem>
                                             <MenuItem value={2}> Rating </MenuItem>
-                                            <MenuItem value={3}> Youtube Path </MenuItem>
+                                            <MenuItem value={3}> Review Count </MenuItem>
                                             <MenuItem value={4}> YTC ID </MenuItem>
                                             </Select>
                                         </FormControl>
@@ -148,7 +149,6 @@ export default function SearchPage( { params } ) {
                                             <MenuItem value={2}> Rating </MenuItem>
                                             <MenuItem value={3}> User </MenuItem>
                                             <MenuItem value={4}> Channel </MenuItem>
-                                            <MenuItem value={5}> ReviewID </MenuItem>
                                             </Select>
                                         </FormControl>
                                 }

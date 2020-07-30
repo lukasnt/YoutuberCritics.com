@@ -21,6 +21,8 @@ export default function ChannelPage( {youtubePath} ) {
             imageURL: "",
             title: "",
             youtubePath: "",
+            ratingAverage: 0,
+            reviewCount: 0,
         }
     );
     const [reviews, setReviews] = useState([]);
@@ -39,7 +41,7 @@ export default function ChannelPage( {youtubePath} ) {
         setSent(true);
     }
 
-    console.log(channel);
+    document.title = channel.title + " - YoutuberCritics";
 
     return (
         <div>
@@ -58,10 +60,10 @@ export default function ChannelPage( {youtubePath} ) {
                     </Grid>
                     <Grid item>
                         <Typography variant="h4" > {channel.title} </Typography>
-                        <Typography variant="subtitle1"> 500 Reviews </Typography>
+                        <Typography variant="subtitle1"> {channel.reviewCount + " Reviews"} </Typography>
                         <Rating 
                             precision={0.1} 
-                            value={4.6} 
+                            value={channel.ratingAverage} 
                             name="Rating" 
                             style={mobile ? {fontSize: "2.2rem"}: {fontSize: "3rem"}} size="large"
                             readOnly/>
@@ -100,26 +102,30 @@ export default function ChannelPage( {youtubePath} ) {
 
 function PostReview( {channel} ) {
     const [rating, setRating] = useState(0);
+    const [sent, setSent] = useState(false);
 
     function handlePost(event) {
         let reviewTitle = document.getElementById("reviewTitle").value;
         let reviewText = document.getElementById("reviewText").value;
 
-        axios.post(backendDomain + "/api/channels/" + channel.channelID + "/reviews", 
-        {
-            channelID: channel.channelID,
-            userID: 1,
-            rating: rating,
-            title: reviewTitle,
-            text: reviewText,
+        if (!sent) {
+            axios.post(backendDomain + "/api/channels/" + channel.channelID + "/reviews", 
+            {
+                channelID: channel.channelID,
+                userID: 1,
+                rating: rating,
+                title: reviewTitle,
+                text: reviewText,
+            }
+            ).then(res => {
+                setSent(true);
+                setRating(0);
+                reviewText = "";
+                reviewTitle = "";
+                console.log("POSTED", channel.channelID, rating, reviewText);
+                window.location.replace(frontendDomain + "/channel/user?pathName=" + channel.youtubePath);
+            });
         }
-        ).then(res => {
-            setRating(0);
-            reviewText = "";
-            reviewTitle = "";
-            console.log("POSTED", channel.channelID, rating, reviewText);
-            window.location.replace(frontendDomain + "/channel/user?pathName=" + channel.youtubePath);
-        });
     }
 
     return (

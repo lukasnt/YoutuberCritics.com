@@ -58,6 +58,7 @@ function redirect(path) {
   window.history.pushState(null, "", window.location.href);
   window.location.replace(frontendDomain + path);
 }
+document.title = "Home - YoutuberCritics";
 
 function Home() {
   const[channels, setChannels] = useState([]);

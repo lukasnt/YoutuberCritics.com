@@ -24,11 +24,12 @@ namespace YoutuberCritics.Controllers
         [HttpGet("recent/")]
         public ActionResult<IEnumerable<Review>> GetRecentReviews() 
         {
-            if (_cache.GetReviews() == null || !_cache.GetReviews().Any())
+            var maxItems = 8;
+            if (_cache.GetReviews() == null || _cache.GetReviews().Count() < maxItems)
             {
                 var result = _context.Reviews
                     .OrderByDescending(review => review.DatePosted)
-                    .Take(8)
+                    .Take(maxItems)
                     .Include(review => review.Channel)
                     .Include(review => review.User)
                     .ToList();
@@ -37,7 +38,7 @@ namespace YoutuberCritics.Controllers
             }
             else
             {
-                return Ok(_cache.GetReviews().Take(8));
+                return Ok(_cache.GetReviews().Take(maxItems));
             }
             
         }

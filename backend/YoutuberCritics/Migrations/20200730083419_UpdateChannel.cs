@@ -21,7 +21,7 @@ namespace YoutuberCritics.Migrations
             migrationBuilder.Sql(
                     "UPDATE Channels " +
                     "SET Channels.ReviewCount = (SELECT COUNT(*) FROM Reviews WHERE Reviews.ChannelID = Channels.ChannelID), " +
-                        "Channels.RatingAverage = (SELECT AVG(Reviews.Rating) FROM Reviews WHERE Reviews.ChannelID = Channels.ChannelID) " +
+                        "Channels.RatingAverage = (SELECT AVG(CAST(Reviews.Rating AS float)) FROM Reviews WHERE Reviews.ChannelID = Channels.ChannelID) " +
                     "WHERE ChannelID IN (SELECT DISTINCT Reviews.ChannelID FROM Reviews);"
             );
         }

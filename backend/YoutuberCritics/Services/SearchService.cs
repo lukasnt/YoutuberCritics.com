@@ -180,9 +180,9 @@ namespace YoutuberCritics.Services
                 case 1:
                     return (channel => channel.Title);
                 case 2:
-                    return (channel => channel.Subscribers);
+                    return (channel => channel.RatingAverage);
                 case 3:
-                    return (channel => channel.YoutubePath);
+                    return (channel => channel.ReviewCount);
                 case 4:
                     return (channel => channel.ChannelID);
                 default:

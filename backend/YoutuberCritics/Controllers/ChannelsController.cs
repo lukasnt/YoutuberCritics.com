@@ -34,7 +34,7 @@ namespace YoutuberCritics.Controllers
             }
             else
             {
-                return Ok(_cache.GetChannels());
+                return Ok(_cache.GetChannels().Take(maxItems));
             }
         }
 
@@ -81,9 +81,12 @@ namespace YoutuberCritics.Controllers
         [HttpPost("{id}/reviews")]
         public ActionResult AddChannelReview(int id, [FromBody] Review review)
         {
+            var channel = _context.Channels.Single(channel => channel.ChannelID == review.ChannelID);
+            channel.RatingAverage = (channel.RatingAverage * channel.ReviewCount + review.Rating) / (channel.ReviewCount + 1);
+            channel.ReviewCount++;
             _context.Reviews.Add(review);
             _context.SaveChanges();
-            _cache.AddReview(_context.Reviews.Include(review => review.Channel).Include(review => review.User).First(r => r.ReviewID == review.ReviewID));
+            _cache.AddReview(_context.Reviews.Include(review => review.Channel).Include(review => review.User).Single(r => r.ReviewID == review.ReviewID));
             return CreatedAtAction("AddChannelReview", new {Id = review.ReviewID}, review);
         }
     }

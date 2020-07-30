@@ -35,10 +35,10 @@ export default function ChannelCard( {channel} ) {
                     name="rating" 
                     style={{fontSize: "2.2rem"}} 
                     precision={0.1}
-                    value={3.4} size="large" 
+                    value={channel.ratingAverage} size="large" 
                     readOnly/>
                 <CardActions>
-                    <Typography variant="body2" color="textSecondary"> 561 reviews </Typography>
+                    <Typography variant="body2" color="textSecondary"> {channel.reviewCount + " Reviews"} </Typography>
                 </CardActions>
             </CardActions>
             </CardActionArea>
