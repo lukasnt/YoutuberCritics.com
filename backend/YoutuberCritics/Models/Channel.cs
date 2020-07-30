@@ -31,6 +31,10 @@ namespace YoutuberCritics.Models
         public string Description { get; set; }
 
         public int Subscribers { get; set; }
+
+        public int ReviewCount { get; set; }
+
+        public double RatingAverage { get; set; }
         
     }
 }
