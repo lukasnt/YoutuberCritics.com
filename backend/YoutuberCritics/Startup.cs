@@ -8,6 +8,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using YoutuberCritics.Data;
 using YoutuberCritics.Services;
+using YoutuberCritics.Services.Scrapers;
 
 namespace YoutuberCritics
 {
@@ -44,6 +45,8 @@ namespace YoutuberCritics
             services.AddSingleton<RemoteWebDriver, ChromeDriver>(provider => new ChromeDriver(options));
             services.AddSingleton<RemoteWebDriver, ChromeDriver>(provider => new ChromeDriver(options));
             */
+            
+            services.AddSingleton<IScraper, HttpScraper>();
 
             services.AddTransient<SearchService>();
             services.AddSingleton<CacheService>();

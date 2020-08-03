@@ -39,7 +39,7 @@ export default function SearchPage( { params } ) {
 
     if (!sent) {
         if (tab === 0) {
-            axios.get(backendDomain + "/api/search?keyword=" + term + "&order=" + channelOrder + "&page=" + channelPage + "&pageSize=" + pageSize)
+            axios.get(backendDomain + "/api/search?keyword=" + term + "&order=" + channelOrder + "&page=" + channelPage + "&pageSize=" + pageSize + "&scrape=" + (channelPage === 1 && channelOrder === 0 && term !== "" ? "true" : "false"))
                 .then(res => {
                     setChannels(res.data.splice(0, pageSize));
                     setLoading(null);
@@ -62,11 +62,13 @@ export default function SearchPage( { params } ) {
     );
     let reviewItems = <Reviews reviews={reviews} />;
     
-    
+    function internalRedirect(term, tab, reviewOrder, reviewPage, channelOrder, channelPage) {  
+        redirect("/search?keyword=" + term + "&tab=" + tab + "&reviewOrder=" + reviewOrder + "&reviewPage=" + reviewPage + "&channelOrder=" + channelOrder + "&channelPage=" + channelPage);
+    }
     
     const handleTabChange = (event, newValue) => {
         //setTab(newValue);
-        redirect("/search?keyword=" + term + "&tab=" + newValue + "&reviewOrder=" + reviewOrder + "&reviewPage=" + reviewPage + "&channelOrder=" + channelOrder + "&channelPage=" + channelPage)
+        internalRedirect(term, newValue, reviewOrder, reviewPage, channelOrder, channelPage);
     };
     
     const handleReviewOrderChange = (event) => {
@@ -74,14 +76,14 @@ export default function SearchPage( { params } ) {
         setLoading(initLoad);
         setReviews([]);
         
-        redirect("/search?keyword=" + term + "&tab=" + tab + "&reviewOrder=" + event.target.value + "&reviewPage=" + reviewPage + "&channelOrder=" + channelOrder + "&channelPage=" + channelPage);
+        internalRedirect(term, tab, event.target.value, reviewPage, channelOrder, channelPage);
     };
     const handleChannelOrderChange = (event) => {
         setChannelOrder(event.target.value);
         setLoading(initLoad);
         setChannels([]);
         
-        redirect("/search?keyword=" + term + "&tab=" + tab + "&reviewOrder=" + reviewOrder + "&reviewPage=" + reviewPage + "&channelOrder=" + event.target.value + "&channelPage=" + channelPage);
+        internalRedirect(term, tab, reviewOrder, reviewPage, event.target.value, channelPage);
     };
 
     const handleChannelPageChange = (event, value) => {
@@ -89,14 +91,14 @@ export default function SearchPage( { params } ) {
         setLoading(initLoad);
         setChannels([]);
 
-        redirect("/search?keyword=" + term + "&tab=" + tab + "&reviewOrder=" + reviewOrder + "&reviewPage=" + reviewPage + "&channelOrder=" + channelOrder + "&channelPage=" + value);
+        internalRedirect(term, tab, reviewOrder, reviewPage, channelOrder, value);
     };
     const handleReviewPageChange = (event, value) => {
         setReviewPage(value);
         //setLoading(initLoad);
         //setReviews([]);
 
-        redirect("/search?keyword=" + term + "&tab=" + tab + "&reviewOrder=" + reviewOrder + "&reviewPage=" + value + "&channelOrder=" + channelOrder + "&channelPage=" + channelPage);
+        internalRedirect(term, tab, reviewOrder, value, channelOrder, channelPage);
     };
 
     document.title = (term ? term : (tab === 0 ? "Channels" : "Reviews")) + " - YoutuberCritics";

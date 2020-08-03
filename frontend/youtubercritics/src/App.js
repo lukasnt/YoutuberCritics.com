@@ -52,8 +52,8 @@ function App() {
     );
 }
 
-const backendDomain = "https://youtubercritics.azurewebsites.net"; // "https://youtubercritics.azurewebsites.net"; // "https://localhost:5001";
-const frontendDomain = "https://youtubercritics.com"; // "https://youtubercritics.com"; // "http://localhost:3000";
+const backendDomain = "https://localhost:5001"; // "https://youtubercritics.azurewebsites.net"; // "https://localhost:5001";
+const frontendDomain = "http://localhost:3000"; // "https://youtubercritics.com"; // "http://localhost:3000";
 function redirect(path) {
   window.history.pushState(null, "", window.location.href);
   window.location.replace(frontendDomain + path);

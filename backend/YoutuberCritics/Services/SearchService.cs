@@ -1,174 +1,100 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
+using Microsoft.Extensions.DependencyInjection;
 using PagedList;
 using YoutuberCritics.Data;
 using YoutuberCritics.Models;
+using YoutuberCritics.Services.Scrapers;
 
 namespace YoutuberCritics.Services
 {
     public class SearchService
     {
-        private readonly IEnumerable<RemoteWebDriver> _drivers;
         private readonly YoutuberCriticsContext _context;
 
-        public SearchService(IEnumerable<RemoteWebDriver> drivers, YoutuberCriticsContext context)
+        private readonly IScraper _scraper;
+
+        private readonly IServiceScopeFactory _serviceScopeFactory;
+
+        public SearchService(IScraper scraper, YoutuberCriticsContext context, IServiceScopeFactory serviceScopeFactory)
         {
-            _drivers = drivers;
+            _scraper = scraper;
             _context = context;
-        }
-
-        
-        private void ShortScroll(RemoteWebDriver driver)
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                driver.ExecuteScript("window.scrollBy(0,150)");
-                Thread.Sleep(50);
-            }
-        }
-
-        private void FullScroll(RemoteWebDriver driver)
-        {
-            while (true){
-                long before = (long) driver.ExecuteScript("return window.pageYOffset;");
-
-                this.ShortScroll(driver);
-                
-                long after = (long) driver.ExecuteScript("return window.pageYOffset;");
-                
-                if (after - before < 200) break;
-
-                Thread.Sleep(1000);
-            }
-        }
-
-        private bool IsDriverIdle(RemoteWebDriver driver)
-        {
-            Console.WriteLine(driver.Url);
-            return driver.Url == "data:,";
-        }
-
-        private RemoteWebDriver GetIdleDriver()
-        {
-            foreach (var driver in _drivers)
-            {
-                if (IsDriverIdle(driver))
-                    return driver;   
-            }
-            return null;
-        }
-
-        private int ParseSubsText(string text)
-        {
-            if (text.Length == 0) return 0;
-            if (text == null) return 0;
-            
-            var nt = text.Split(" ")[0];
-            var mult = 1;
-            if (nt.EndsWith('K') || nt.EndsWith('k'))
-            {
-                mult = 1000;
-                nt = nt.Substring(0, nt.Length - 1);
-            }
-            else if (nt.EndsWith('M') || nt.EndsWith('m') || nt.EndsWith(" mill."))
-            {
-                mult = 1000000;
-                nt = nt.Substring(0, nt.Length - 1);
-            }
-            return (int) (float.Parse(nt, CultureInfo.InvariantCulture) * mult);
-        }
-
-        private IEnumerable<Channel> ParseChannels(RemoteWebDriver driver)
-        {
-            var channels = new List<Channel>();
-            var infos = driver.FindElementsByXPath("//*[@id=\"contents\"]/ytd-channel-renderer");
-
-            foreach (var info in infos)
-            {
-                var imageURL = info.FindElement(By.XPath(".//*[@id=\"img\"]")).GetAttribute("src");
-                var title = info.FindElement(By.XPath(".//*[@id=\"text\"]")).Text;
-                var fullPath = info.FindElement(By.XPath(".//*[@id=\"main-link\"]")).GetAttribute("href");
-                var description = info.FindElement(By.XPath(".//*[@id=\"description\"]")).Text;
-
-                var subsText = info.FindElement(By.XPath(".//*[@id=\"subscribers\"]")).Text;
-                var subs = ParseSubsText(info.FindElement(By.XPath(".//*[@id=\"subscribers\"]")).Text);
-                
-                var path = "";
-                var userIndex = fullPath.IndexOf("user");
-                var channelIndex = fullPath.IndexOf("channel");
-                if (userIndex == -1)
-                {
-                    path = fullPath.Substring(channelIndex);
-                } 
-                else
-                {
-                    path = fullPath.Substring(userIndex);
-                }
-
-                if (imageURL != null)
-                    channels.Add(new Channel(title, path, imageURL, description, subs));
-                /*
-                Console.WriteLine(imageURL);
-                Console.WriteLine(title);
-                Console.WriteLine(path);
-                Console.WriteLine(description);
-                Console.WriteLine();
-                */
-            }
-            return channels;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         private void UpdateDatabase(IEnumerable<Channel> channels)
         {
+            // Needs a new scope because this is gonna run after the http request have been sent back (meaning the request scope have been disposed)
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetService<YoutuberCriticsContext>();
+
+                Console.WriteLine("ASYNC RUN");
+                foreach (var channel in channels)
+                {
+                    try
+                    {
+                        db.Channels.Add(channel);
+                        db.SaveChanges();
+                        Console.WriteLine("ADDED NEW CHANNEL");
+                    }
+                    catch (System.Exception)
+                    {
+                        db.Entry(channel).State = EntityState.Detached;
+                        var existing = db.Channels.Where(c => c.YoutubePath == channel.YoutubePath).First();
+                        db.Entry(existing).State = EntityState.Modified;
+                        existing.Title = channel.Title;
+                        existing.Description = channel.Description;
+                        existing.ImageURL = channel.ImageURL;
+                        existing.Subscribers = channel.Subscribers;
+                        db.SaveChanges();
+                        Console.WriteLine("DUPLICATE UPDATED!");
+                    }
+                }
+                
+                Console.WriteLine("The end");
+            }
+        }
+
+        public IEnumerable<Channel> ExtendChannelData(IEnumerable<Channel> channels)
+        {
+            var channelPaths = channels.Select(channel => channel.YoutubePath);
+            var extendedChannels = _context.Channels.AsNoTracking().Where(channel => channelPaths.Contains(channel.YoutubePath)).ToList();
+            var result = new List<Channel>();
             foreach (var channel in channels)
             {
-                try
+                var extendedChannel = extendedChannels.Find(c => c.YoutubePath == channel.YoutubePath);
+                if (extendedChannel != null)
                 {
-                    _context.Channels.Add(channel);
-                    _context.SaveChanges();
+                    result.Add(extendedChannel);
                 }
-                catch (System.Exception)
-                {
-                    _context.Entry(channel).State = EntityState.Detached;
-                    var existing = _context.Channels.Where(c => c.YoutubePath == channel.YoutubePath).First();
-                    _context.Entry(existing).State = EntityState.Modified;
-                    existing.Title = channel.Title;
-                    existing.Description = channel.Description;
-                    existing.ImageURL = channel.ImageURL;
-                    existing.Subscribers = channel.Subscribers;
-                    _context.SaveChanges();
-                    Console.WriteLine("DUPLICATE UPDATED!");
+                else{
+                    result.Add(channel);
                 }
             }
+            return result;
         }
 
         public IEnumerable<Channel> ChannelScrapeSearch(string keyword, bool fullScan) 
         {
-            var driver = GetIdleDriver();
-            if (driver == null) return new List<Channel>();
-
-            driver.Navigate().GoToUrl("https://www.youtube.com/results?search_query=" + keyword + "&sp=CAMSAhAC");
-            
-            if (fullScan){
-                FullScroll(driver);
+            IEnumerable<Channel> channels;
+            if (fullScan)
+            {
+                channels = _scraper.FullScrape(keyword);
             }
             else
             {
-                ShortScroll(driver);
+                channels = _scraper.ShortScrape(keyword);
             }
-            var data = ParseChannels(driver);
-            UpdateDatabase(data);
-            driver.Navigate().GoToUrl("data:,");
-            return data;
+            channels = ExtendChannelData(channels);
+            Task.Factory.StartNew(() => UpdateDatabase(channels));
+            return channels;
         }
 
         private Expression<Func<Channel, Object>> GetChannelOrderAttribute(int orderEnum)
