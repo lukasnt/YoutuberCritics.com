@@ -107,12 +107,16 @@ function PostReview( {channel} ) {
     function handlePost(event) {
         let reviewTitle = document.getElementById("reviewTitle").value;
         let reviewText = document.getElementById("reviewText").value;
+        let reviewUser = document.getElementById("reviewUser").value;
 
         if (!sent) {
             axios.post(backendDomain + "/api/channels/" + channel.channelID + "/reviews", 
             {
                 channelID: channel.channelID,
-                userID: 1,
+                user: {
+                    email: "no@mail.com",
+                    name: (reviewUser === "" ? "Anonymous" : reviewUser)
+                },
                 rating: rating,
                 title: reviewTitle,
                 text: reviewText,
@@ -142,6 +146,12 @@ function PostReview( {channel} ) {
                 <Button variant="contained" color="secondary" style={{width: "100%"}}> Write a review </Button>
             </AccordionSummary>
             <AccordionDetails style={{padding: "16px", display: "flex", direction: "column", flexWrap: "wrap"}}>
+                <TextField
+                    id="reviewUser"
+                    fullWidth
+                    label="Your name"
+                    variant="filled"
+                />
                 <Rating
                     name="PostRating"
                     value={rating}

@@ -81,6 +81,11 @@ namespace YoutuberCritics.Controllers
         [HttpPost("{id}/reviews")]
         public ActionResult AddChannelReview(int id, [FromBody] Review review)
         {
+            var user = review.User;
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            review.User = user; // UserID added with autoincrement
+
             var channel = _context.Channels.Single(channel => channel.ChannelID == review.ChannelID);
             channel.RatingAverage = (channel.RatingAverage * channel.ReviewCount + review.Rating) / (channel.ReviewCount + 1);
             channel.ReviewCount++;
